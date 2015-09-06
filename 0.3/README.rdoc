@@ -1,0 +1,78 @@
+= rankforce
+
+rankforce is a tool which social conditions from ikioi of 2ch.
+
+== Installation
+
+Generate and install the gem, execute a command.
+
+  rake gemspec
+  gem build rankforce.gemspec
+
+=== Gem Installation
+
+  gem install rankforce
+
+== OAuth support
+
+OAuth needs rankforce. Please get access token and access token secret for OAuth.
+Get your twitter OAuth keys register at http://dev.twitter.com/apps,
+Then write in rankforce configuration file. (There is the sample in $RANKFORCE_ROOT/config/config.sample.yml)
+
+== Prepare database
+
+This app is require that database MySQL or SQLite3.
+Especially recommended sqlite3 because it is more easy to introduce.
+DDL definition is performed automatically when you run rankforce.
+
+== Aquire data
+
+Rankforce applications can be run directly:
+
+  rankforce [-h] [-C config file path] [-p]
+
+Options are:
+
+  -h # help
+  -C # config file path (required)
+  -p # print error message (default is off)
+  -v # show version
+
+== Web page sample
+
+Now createing...
+
+== More
+
+* {Demo Website}[http://rf.summer-lights.jp/]
+* {Twitter}[http://twitter.com/rankforce]
+
+
+== Copyright
+
+* Author::    mapserver2007(Ryuichi TANAKA) <mapserver2007@gmail.com>
+* Copyright:: Copyright (c) 2010 mapserver2007
+
+== License
+
+  (The MIT License)
+
+  Copyright (c) 2010 mapserver2007
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  THE SOFTWARE.

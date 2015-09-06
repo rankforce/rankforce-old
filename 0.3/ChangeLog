@@ -1,0 +1,51 @@
+== 0.1.0 / 2010-02-14
+
+* initial release
+
+== 0.2.0 / 2010-06-09
+
+* 0.2.0 release
+
+== 0.2.1 / 2010-08-31
+
+* bug fix
+
+== 0.3.0 / 2010-12-26
+
+* 0.3.0 release, support Ruby1.9.2
+
+== 0.3.1 / 2010-12-27
+
+* bug fix
+
+== 0.3.2 / 2011-01-04
+
+* append database column
+
+== 0.3.3 / 2011-01-18
+
+* append timeline_url column
+* delete tweeted column
+
+== 0.3.4 / 2011-04-14
+
+* don't stop in error for runnning
+* change debug stack implement
+* append rspec result
+
+== 0.3.5 / 2011-06-18
+
+* fix database handring
+* test fix
+
+== 0.3.6 / 2011-06-19
+
+* bug fix
+
+== 0.3.7 / 2011-06-20
+
+* fix database handring
+
+== 0.3.8 / 2011-06-29
+
+* bug fix

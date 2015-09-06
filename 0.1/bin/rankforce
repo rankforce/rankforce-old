@@ -1,0 +1,62 @@
+#!/usr/bin/ruby
+# -*- coding: utf-8 -*-
+
+RANKFORCE_ROOT = File.dirname(File.expand_path($PROGRAM_NAME))
+$: << RANKFORCE_ROOT + "/../lib"
+
+require 'rankforce'
+require 'rankforce/register'
+require 'optparse'
+
+# default config
+config = {
+  'register_threshold' => 10000,
+  'board' => 'newsplus',
+}
+
+opt = OptionParser.new
+opt.on('-r', '--register-threshold REGISTER_THRESHOLD') {|v| config['register_threshold'] = v.to_i}
+opt.on('-t', '--tweet TWEET_THRESHOLD') {|v| config['tweet_threshold'] = v}
+opt.on('-b', '--board BOARD') {|v| config['board'] = v}
+opt.on('-d', '--database') {|boolean| config['db'] = boolean}
+opt.on('-c', '--csv-file CSV_FILE') {|path| config['csv'] = path}
+opt.on('-x', '--xml-file XML_FILE') {|path| config['xml'] = path}
+opt.on('-C', '--config-file CONFIG_FILE') {|path| RankForce.config = path}
+opt.on('-p', '--print') {|boolean| config['print'] = boolean}
+opt.parse!
+
+# start scraper
+data = config['board'].split(/,/).each_with_object [] do |board, d|
+  rfs = RankForce::Scraper.new({
+    :threshold => config['register_threshold'],
+    :board => board
+  })
+  res = rfs.exec
+  res.each do |e| d << e end unless res.nil?
+end
+
+# start tweet
+tweet = RankForce::Tweet.new
+
+# start register
+db = config['db'] ? RankForce::Register.new : nil
+data.each do |e|
+  message = "【#{e[:board]}】#{e[:title]}(勢い：#{e[:ikioi]}) #{e[:url]}"
+  db_result = db.custom_insert(e) unless db.nil?
+  if db.nil? || db_result
+    puts "[debug]\t#{message}" if config['print']
+    tweet.post(message) if config['tweet_threshold'].to_i != 0 && e[:ikioi].to_i > config['tweet_threshold'].to_i
+  end
+end
+
+# output csv
+config['board'].split(/,/).each do |board|
+  rfc = RankForce::Output::CSV.new(config['csv'], board)
+  rfc.generate
+end if !config['csv'].nil? && File.exist?(config['csv'])
+
+# output xml
+config['board'].split(/,/).each do |board|
+  rfx = RankForce::Output::XML.new(config['xml'], board)
+  rfx.generate
+end if !config['xml'].nil? && File.exist?(config['xml'])

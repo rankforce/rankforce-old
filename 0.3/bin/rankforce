@@ -1,0 +1,15 @@
+#!/usr/bin/ruby
+# -*- coding: utf-8 -*-
+$: << File.dirname(File.expand_path($PROGRAM_NAME)) + "/../lib"
+require 'rankforce'
+require 'optparse'
+
+config = {}
+OptionParser.new do |opt|
+  opt.on('-C', '--config_path INPUT_CONFIG_FILE_PATH') {|v| config[:config_path] = v}
+  opt.on('-p', '--debug') {|boolean| config[:debug] = boolean}
+  opt.on('-v', '--version') {puts RankForce::VERSION; exit}
+  opt.parse!
+end
+
+RankForce.get(config)

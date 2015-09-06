@@ -1,0 +1,135 @@
+= rankforce
+
+rankforce is a tool which social conditions from ikioi of 2ch.
+
+== Installation
+
+Generate and install the gem, execute a command.
+
+  rake gemspec
+  gem build rankforce.gemspec
+
+=== Gem Installation
+
+  gem install rankforce
+
+== OAuth support
+
+OAuth needs rankforce. Please get access token and access token secret for OAuth.
+At first, consumer key and consumer secret from Twitter. Please refer to http://twitter.com/settings/connections in detail.
+After having obtained consumer key and consumer secret, execute a command.
+
+  rankforce-oauth [-k CONSUMER_KEY] -s [-s CONSUMER_SECRET]
+
+Options are:
+
+  -k # set your consumer key for oauth
+  -s # set your consumer secret for oauth
+
+Access URL displayed in the state that logged in to Twitter. (As for the command, a wait keeps on being in a state.)
+
+  Please, access this URL: http://api.twitter.com/oauth/authorize?oauth_token=(your oauth token)
+
+Input displayed password.
+
+  Please, input verifier after accessed it: (your password)
+
+Output your access token and access token secret.
+
+  Access token: (your access token)
+  Access token secret: (your access token secret)
+
+Write in rankforce configuration file. (There is the sample in $RANKFORCE_ROOT/example/config/config.yml)
+
+== Prepare database
+
+MySQL is necessary to use it. Please install it beforehand and prepare for the database.
+
+  create database rankforces
+
+Migrate the database.
+
+  rankforce-migrate [-C CONFIG_FILE] [-m MODE]
+
+Options are:
+
+  -C # set the config file(yml) path (this option is required) (default is off)
+  -m # choose the down or up (down equals drop table, up equals create table command) (default is off)
+
+== Aquire data
+
+Rankforce applications can be run directly:
+
+  rankforce [-h] [-r REGISTER_THRESHOLD] [-t TWEET_THRESHOLD] [-b BOARD] [-c CSV_FILE] [-x XML_FILE] [-C CONFIG_FILE] [-d] [-p]
+
+Options are:
+
+  -h # help
+  -r # set the threthold ikioi of 2ch (default 10000)
+  -t # set the threthold post to twitter (default is off)
+  -b # set the board of 2ch. camma separated value is possible (dedault is newplus)
+  -c # set the directory path which outputs CSV (default is off)
+  -x # set the directory path which outputs XML (default is off)
+  -C # set the config file(yml) path (this option is required) (default is off)
+  -d # register the data acquired with  database (default is off)
+  -p # display the acquired data (default is off)
+
+== Web page sample
+
+Use Sinatra to show it in web. (Of course even Rails is OK)
+In this case I use thin in an application server.
+
+  thin start -C config/server.yml -d
+
+Change for the setting server.yml　that is most suitable for you
+About options, read a document of thin in detail.
+
+== Synopsis
+
+migrate example:
+
+  rankforce-migrate -C /home/mapserver2007/rankforce/example/config/config.yml -m up
+
+aquire data example:
+
+  rankforce -r 3000 -t 7000 -b newsplus,news -x /home/mapserver2007/rankforce/example/views/xml -C /home/mapserver2007/rankforce/example/config/config.yml -d
+
+web page example
+
+  cd /home/mapserver2007/rankforce/example
+  thin start -C config/server.yml -d
+
+== More
+
+* {Demo Website}[http://rf.summer-lights.jp/]
+* {Twitter}[http://twitter.com/rankforce]
+
+
+== Copyright
+
+* Author::    mapserver2007(Ryuichi TANAKA) <mapserver2007@gmail.com>
+* Copyright:: Copyright (c) 2010 mapserver2007
+
+== License
+
+  (The MIT License)
+
+  Copyright (c) 2010 mapserver2007
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  THE SOFTWARE.

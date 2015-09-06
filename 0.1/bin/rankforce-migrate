@@ -1,0 +1,26 @@
+#!/usr/bin/ruby
+
+RANKFORCE_ROOT = File.dirname(File.expand_path($PROGRAM_NAME))
+$: << RANKFORCE_ROOT + "/../lib"
+
+require 'optparse'
+require 'rankforce'
+require 'rankforce/migrate'
+
+config_file = nil # RANKFORCE_ROOT + "/../lib/example/config.yml"
+migrate_mode = nil
+
+opt = OptionParser.new
+opt.on('-C', '--config-file CONFIG_FILE') {|path| RankForce.config = path}
+opt.on('-m', '--migrate-mode MIGRATE_MODE') {|v| migrate_mode = v}
+opt.parse!
+
+migrate = RankForce::Migrate.new
+
+if migrate_mode == 'down' && migrate.drop_table
+  puts "drop table success."
+elsif migrate_mode == 'up' && migrate.create_table
+  puts "create table success."
+else
+  puts "migration failure."
+end

@@ -1,0 +1,16 @@
+log: /path/to/log
+
+db:
+  host: 192.168.0.103
+  port: 3306
+  user: mysql
+  pass: mysql
+  dbname: rankforces
+  tablename: threads
+  encoding: utf8
+
+twitter:
+  consumer_key: your consumer key
+  consumer_secret: your consumer secret
+  access_token: your access token
+  access_token_secret: your access token secret

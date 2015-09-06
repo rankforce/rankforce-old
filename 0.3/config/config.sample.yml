@@ -1,0 +1,40 @@
+# Log
+log: /path/to/log
+
+# Board
+boards:
+  - newsplus
+  - news
+  - mnewsplus
+  - news4vip
+
+# SQlite
+db:
+  dbms: sqlite
+  dbname: /path/to/rankforce.sqlite
+  timeout: 1000
+
+# MySQL
+# db:
+#   dbms: mysql
+#   host: localhost
+#   port: 3306
+#   dbname: rankforces
+#   tablename: threads
+#   encoding: utf8
+
+# Twitter
+twitter:
+  consumer_key: your consumer key
+  consumer_secret: your consumer secret
+  oauth_token: your oauth token
+  oauth_token_secret: your oauth token secret
+
+# bit.ly
+bitly:
+  login: your bitly account
+  apiKey: your bitly api key
+
+# Other
+threshold: 3000
+tweet_threshold: 7000

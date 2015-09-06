@@ -1,0 +1,30 @@
+#!/usr/bin/ruby
+
+require 'rubygems'
+require 'twitter'
+require 'optparse'
+
+params = {}
+opt = OptionParser.new
+opt.on('-k', '--consumer-key CONSUMER_KEY') {|key| params[:consumer_key] = key}
+opt.on('-s', '--consumer_secret CONSUMER_SECRET') {|secret| params[:consumer_secret] = secret}
+opt.parse!
+
+oauth = Twitter::OAuth.new(
+  params[:consumer_key],
+  params[:consumer_secret]
+)
+
+request = oauth.consumer.get_request_token
+puts "Please, access this URL: #{request.authorize_url}"
+puts "Please, input verifier after accessed it:"
+oauth_verifier = gets.chomp
+
+access_token, access_token_secret = oauth.authorize_from_request(
+  request.token,
+  request.secret,
+  oauth_verifier
+)
+
+puts "Access token: #{access_token}"
+puts "Access token secret: #{access_token_secret}"

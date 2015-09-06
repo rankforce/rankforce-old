@@ -1,0 +1,53 @@
+!!! XML
+!!!
+%html
+  %head
+    %meta{'http-equiv' => 'content', :content => 'text/html; charset=utf-8'}
+    %meta{:name => 'viewport', :content => 'width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;'}
+    %title rankforce - 2chの勢いから世相を占う
+    %link{:href => '/style.css', :rel => 'stylesheet', :type => 'text/css', :media => 'screen'}
+    %script{:type => 'text/javascript', :src => '/graph/swfobject.js'}
+    %script{:type => 'text/javascript', :src => 'http://files.go2web20.net/twitterbadge/1.0/badge.js'}
+    %script{:type => 'text/javascript'}
+      function redirect(e) { location.replace("/" + e.value); }
+  %body
+    %div#container
+      %div#header
+        %a{:href => '/'}
+          %img(src='/images/logo.png')
+        %p 2chの「勢い」を収集し可視化します。
+      %div#boards
+        %select{:onchange => "redirect(this);"}
+          - boards_ja.each_with_index do |ja, i|
+            - if @board == boards_en[i]
+              %option{:value => boards_en[i], :selected => 'selected'}
+                #{ja}
+            - else
+              %option{:value => boards_en[i]}
+                #{ja}
+      %div#calendar
+        %span#month
+          #{@date.unpack("a4a2").join("/")}
+        %span#day
+          - @calendar[:all].each do |d|
+            - unless @calendar[:exist].index(d).nil?
+              %a{:href => "/#{@board}/#{@date.unpack("a4a2").to_s}#{d}"}
+                #{d}
+            - else
+              #{d}
+      %div#graph
+      %div#footer
+        %h2 Copyright &copy; 2004-2010 summer-lights All Rights Reserved
+      %script{:type => 'text/javascript'}
+        var so = new SWFObject("/graph/amline.swf", "amline", "900", "400", "8", "#FFFFFF");
+        so.addVariable("path", "/graph/");
+        so.addVariable("settings_file", encodeURIComponent("/graph/amline_settings.xml"));
+        so.addVariable("data_file", encodeURIComponent("/xml/rankforce_xml_#{@board}_#{@date}.xml"), 0);
+        so.write("graph");
+      %script{:type => 'text/javascript', :content => 'text/html; charset=utf-8'}
+        tfb.account = 'rankforce';
+        tfb.label = 'my-twitter';
+        tfb.color = '#00bff3';
+        tfb.side = 'r';
+        tfb.top = 136;
+        tfb.showbadge();
